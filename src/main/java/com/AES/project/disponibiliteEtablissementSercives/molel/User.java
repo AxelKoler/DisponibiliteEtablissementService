@@ -1,5 +1,6 @@
 package com.AES.project.disponibiliteEtablissementSercives.molel;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -68,11 +69,12 @@ public class User {
 
     //l'etablissement créés par ce gerant********************
     @OneToOne(mappedBy="gerantPrincipal", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference("etablissementGerant")
     private Etablissement etablissementCree;
 
     //La liste des produits crées par ce gerant**************
     @OneToMany(mappedBy="createur",fetch = FetchType.LAZY)
-    @JsonManagedReference("produit-user")
+    @JsonBackReference("produit-user")
     private List<Produit>listProduits;
 
 

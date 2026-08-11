@@ -50,8 +50,16 @@ public class EtablissementController {
         return ResponseEntity.ok(etablissementService.listTousEtablissement());
     }
 
-    ///****Desactiver un etablissement( ADMIN , et GERANT CONNECTE)*********************
+    ///****Activer et Desactiver un etablissement( ADMIN , et GERANT CONNECTE)*********************
 
+    @PutMapping("/{id}/valider")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<EtablisssementDtoResponse> valideEtablissement(@PathVariable Long id){
+
+        EtablisssementDtoResponse response = etablissementService.validerEtablissement(id);
+
+        return ResponseEntity.ok(response);
+    }
 
 
     ///***Supprimer etablissement**************************************

@@ -47,11 +47,12 @@ public class Etablissement {
 //le gérant qui àa créé l'etablissement**************************
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_gerantPrincipal", unique = true)
-    @JsonBackReference ("etablissementDuUser")
+    @JsonBackReference ("etablissementGerant")
     private User gerantPrincipal ;
 
     //La liste des gérant de cet etabissement
     @OneToMany(mappedBy="etablissementTravail", cascade=CascadeType.REMOVE,orphanRemoval=true)
+    @JsonBackReference ("etablissementDuUser")
     private List<User> listeGerant ;
 
 }

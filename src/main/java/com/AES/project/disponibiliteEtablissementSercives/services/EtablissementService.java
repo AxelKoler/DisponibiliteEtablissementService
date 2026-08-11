@@ -4,6 +4,7 @@ import com.AES.project.disponibiliteEtablissementSercives.dto.EtablissementDtoRe
 import com.AES.project.disponibiliteEtablissementSercives.dto.EtablisssementDtoResponse;
 import com.AES.project.disponibiliteEtablissementSercives.molel.Etablissement;
 import com.AES.project.disponibiliteEtablissementSercives.repository.EtablissementRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,32 @@ public class EtablissementService {
         etablissementRepository.delete(etablissement);
 
         return "l'etablissement "+etablissement.getNomEtablissement()+"à été supprimé avec succes" ;
+    }
+
+
+    ///**Valider un etablissement (seul l'admin)****************************************
+    @Transactional
+    public EtablisssementDtoResponse validerEtablissement(Long id){
+
+        //verifier si l'etablissement existe
+        Etablissement etablissement = etablissementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Établissement introuvable avec l'id : " + id));
+
+        //Activer si false et desactiver si true
+        if(etablissement.getActif()==false){
+            etablissement.setActif(true);
+        }
+        else{
+            etablissement.setActif(false);
+        }
+
+        //sauvegarder l'etablissement
+        etablissementRepository.save(etablissement);
+
+        //transformer l' etablissement en etablissement response
+        EtablisssementDtoResponse etablissementDtoResponse=transformDto(etablissement);
+
+        return etablissementDtoResponse;
     }
 
 }

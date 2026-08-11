@@ -1,6 +1,7 @@
 package com.AES.project.disponibiliteEtablissementSercives.molel;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -30,6 +31,10 @@ public class Produit {
     private  int quantite ;
     private BigDecimal prix;
 
+    //chemin de stockage de l'image
+    private String image;
+
+
     @Builder.Default
     private  boolean disponible=false;
 
@@ -40,7 +45,7 @@ public class Produit {
     //le gerant qui à créé ce produit*****************
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_createur")
-    @JsonBackReference("produit-user")
+    @JsonManagedReference("produit-user")
     private User createur;
 
 
