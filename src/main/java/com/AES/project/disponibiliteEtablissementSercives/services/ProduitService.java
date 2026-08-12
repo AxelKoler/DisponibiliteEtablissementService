@@ -52,7 +52,10 @@ public class ProduitService {
         produit.setFinDateIndisponible(produitRequest.getFinDateIndisponible());
         produit.setCreateur(produitRequest.getCreateur());
 
-        if(produitRepository.existsByNomProduit(produit.getNomProduit())){
+        if(produit.getCreateur().getEtablissementCree().getActif()==false){
+            throw new RuntimeException("Votre etablissement est en attente d'activation ");
+        }
+        else if(produitRepository.existsByNomProduit(produit.getNomProduit())){
             throw new RuntimeException("produit existe deja");
         }
         else{
@@ -87,7 +90,10 @@ public class ProduitService {
         Produit produit=produitRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("produit non trouvé"));
 
-        produitRepository.delete(produit);
+        if(produit.getCreateur().getEtablissementCree().getActif()==false){
+            throw new RuntimeException("Votre etablissement est en attente d'activation ");
+        }
+        else produitRepository.delete(produit);
 
         return "Le produit "+produit.getNomProduit()+" à été supprimé avec succes";
     }

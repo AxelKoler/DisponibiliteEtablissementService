@@ -52,7 +52,7 @@ public class Etablissement {
 
     //La liste des gérant de cet etabissement
     @OneToMany(mappedBy="etablissementTravail", cascade=CascadeType.REMOVE,orphanRemoval=true)
-    @JsonBackReference ("etablissementDuUser")
+    @JsonManagedReference("etablissementDuUser")
     private List<User> listeGerant ;
 
 }

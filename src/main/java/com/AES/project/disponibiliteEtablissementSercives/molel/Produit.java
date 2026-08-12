@@ -45,7 +45,7 @@ public class Produit {
     //le gerant qui à créé ce produit*****************
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_createur")
-    @JsonManagedReference("produit-user")
+    @JsonBackReference("produit-user")
     private User createur;
 
 

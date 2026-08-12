@@ -74,13 +74,13 @@ public class User {
 
     //La liste des produits crées par ce gerant**************
     @OneToMany(mappedBy="createur",fetch = FetchType.LAZY)
-    @JsonBackReference("produit-user")
+    @JsonManagedReference("produit-user")
     private List<Produit>listProduits;
 
 
     //l'etablissement du gerant
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_etablissement")
-    @JsonManagedReference("etablissementDuUser")
+    @JsonBackReference ("etablissementDuUser")
     private Etablissement etablissementTravail;
 }
