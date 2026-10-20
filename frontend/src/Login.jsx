@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function Login() {
-  const [form, setForm] = useState({ email: "", password: "" });
+export default function Login({ onSuccess }) {
+  const [form, setForm] = useState({ username: "", password: "" });
   const [error, setError] = useState(""); const [ok, setOk] = useState(""); const [loading, setLoading] = useState(false);
   const change = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -15,7 +15,7 @@ export default function Login() {
       const token = data.token || data.accessToken || data.jwt;
       if (token) localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(data));
-      setOk("Connexion réussie !");
+      setOk("Connexion réussie !"); onSuccess && onSuccess();
     } catch (err) { setError(err.message === "Failed to fetch" ? "Impossible de joindre le serveur" : err.message); }
     finally { setLoading(false); }
   }
@@ -29,7 +29,7 @@ export default function Login() {
       <form className="card" onSubmit={submit}>
         <h2>Connexion</h2>
         <p className="sub">Heureux de vous revoir</p>
-        <label>Email<input name="email" type="email" required value={form.email} onChange={change} placeholder="vous@exemple.com"/></label>
+        <label>Nom d'utilisateur<input name="username" type="text" autoComplete="username" required value={form.username} onChange={change} placeholder="votre identifiant"/></label>
         <label>Mot de passe<input name="password" type="password" required value={form.password} onChange={change} placeholder="••••••••"/></label>
         {error && <div className="msg err">{error}</div>}
         {ok && <div className="msg ok">{ok}</div>}

@@ -1,20 +1,26 @@
 # ---- Stage 1 : build ----
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
-
+ 
+# Dépendances d'abord (cache Docker)
 COPY package*.json ./
 RUN npm ci
-
+ 
 COPY . .
+ 
+# URL de l'API : relative, nginx fait le proxy vers le backend
+ARG VITE_API_URL=/api
+ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
-
-# ---- Stage 2 : serve avec nginx ----
-FROM nginx:alpine
-
-# Adapte le dossier source selon ton bundler :
-# - Create React App -> /app/build
-# - Vite            -> /app/dist
-COPY --from=build /app/build /usr/share/nginx/html
-
+ 
+# ---- Stage 2 : runtime ----
+FROM nginx:stable-alpine
+ 
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+ 
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+ 
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+  CMD wget -qO- http://localhost/ >/dev/null || exit 1
+ 
