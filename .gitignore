@@ -32,3 +32,12 @@ build/
 ### VS Code ###
 .vscode/
 .env
+
+# --- Front Vite / React ---
+node_modules/
+dist/
+dist-ssr/
+.vite/
+coverage/
+*.local
+*.tsbuildinfo
