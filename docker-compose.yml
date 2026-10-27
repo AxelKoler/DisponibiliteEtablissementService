@@ -32,6 +32,10 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: ${DDL_AUTO:-update}
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@local.dev}
+
     ports:
       - "8080:8080"
     depends_on:
