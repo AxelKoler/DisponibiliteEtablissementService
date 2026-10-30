@@ -29,7 +29,7 @@ export default function Login({ onSuccess }) {
       <form className="card" onSubmit={submit}>
         <h2>Connexion</h2>
         <p className="sub">Heureux de vous revoir</p>
-        <label>Nom d'utilisateur<input name="username" type="text" autoComplete="username" required value={form.username} onChange={change} placeholder="votre identifiant"/></label>
+        <label>Nom d&apos;utilisateur<input name="username" type="text" autoComplete="username" required value={form.username} onChange={change} placeholder="votre identifiant"/></label>
         <label>Mot de passe<input name="password" type="password" required value={form.password} onChange={change} placeholder="••••••••"/></label>
         {error && <div className="msg err">{error}</div>}
         {ok && <div className="msg ok">{ok}</div>}
